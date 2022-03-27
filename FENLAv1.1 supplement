@@ -1,0 +1,22 @@
+fenla v1.1 supplement
+玢辣1.1版本补充说明
+
+1.要不要改begin end chapter section
+begin和end在overleaf上有自动补全，所以不改
+item也有自动补全，所以我可能会item和tiao混用，从便原则
+我在用多个平台，也写过多个分章节体系的小说，所以我可以卷-章-节也可以世代-区块-卷，chapter和section对我来说是新的分类方式，没必要改
+但是我还整合了一个新的细分级别，xiaoj小节。
+这样至少写数学书比较方便。我不习惯四级或以上。
+
+2.之后更什么
+首先更更多的颜色
+还有画图部分，因为latex跑画图很慢所以不优先更
+然后其它文章体裁，包括beamer
+我自己用自制beamer风ppt模板代替beamer，因为还没遇到过需要大量数学公式的ppt，但我会更，包括找几个合适的beamer模板，把模板和玢辣同化对接，改成玢辣配色并附带接口，改函数名几个方面
+
+3.作者是谁
+基本不站队尤其不站二元对立的队，精神自由但不精英，期待几百年后的『美丽新世界』，自由地思考自己内在的逻辑和信仰。
+（什么是美丽新世界，是很模糊的，我也说不好！干脆不形容了。）
+任何条件下，拒绝关系户使用玢辣。 Who with any corrupt behaviors is prohibited to use FENLA, even when you cannot survive without these kinda things.
+和平和反对非自卫武器至高无上。
+就这三个原则。

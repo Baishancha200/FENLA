@@ -1,0 +1,520 @@
+### 玢辣 版本1.1更新
+
+开发者：玢璃
+我愿『玢璃』，并深爱着。
+
+
+
+1.支持更多线性代数
+
+2.修复overleaf不支持某些上下标的bug，改换泛用性更大的上下标
+
+​	这是为了修复overleaf无法打出bar的错误。overline泛用性更广。为什么默认不叫pingj（平均）呢？因为我们习惯喊这个东西叫『拔』。叫『x拔』远多于叫『x一横线』，而且后者更长。为了做出语义化的回应，也追加pingj这个打法。
+​	暂时只用到这些，而且我看到的表里只有这3个上标适合拉长，所以只改这3个。
+
+3.支持更多带有begin、end的环境，比如列表
+
+​	本来可以像行间公式、矩阵一样写成一个函数的，但是overleaf一直报错TeX capacity exceeded，连排查都无法排查，只好先放在这。反正写列表的时候也比较习惯创造一个显式环境，不像公式那样比较碎片化，所以影响不大，先把功能放出来。
+
+​	顺便说下，环境和命令的名字不能重合，所以行间公式和矩阵也只好二者择其一。
+
+4.支持部分玢璃（开发者）喜欢的预配置颜色，颜色简代码为后缀s
+
+​	预配置颜色有后缀『色=特殊简码s』，预配置7个颜色，仅代表个人审美，可以修改。因为需要用颜色的地方多，如果最后有s，前面的颜色名称都是首拼（特殊简码）。指定颜色名的特殊简码时，尽量采用粗略而常规的颜色的汉字。目前版本有：特制红色hs，特制蓝色ls，特制绿色lvs（注意），特制粉色fs，特制橙色cs，特制紫色zs，特制青色qs。
+
+​	玢璃认为灰色不适合正常阅读（太淡），黄色也是（刺眼）。计划灰色在将来会用作『备注』等特殊的格式（以刻意降低阅读优先级），不在外部添加。但是使用者如果有需要，添加自己的代码是很容易的（注意是否与玢辣冲突，以及如何制定符合规律的简码）。
+
+5.支持语义化颜色，默认使用『颜色+粗体』表达『强调/重点/加粗』的含义
+
+​	在『重点』和『强调』之间，玢璃个人习惯使用『重点zd』（特殊简码）。第二重点为『zdzd』。这两者的预配置颜色都可以在头文件入口处更改。
+
+6.修复部分大写希腊字母的bug
+
+7.玢辣暂时不进行表格优化。建议使用excel转latex制造表格，友善、省力又直观。在必要时交叉使用多个工具更方便~
+
+8.给出玢辣示例文档（不包含头文件，因为玢辣本身就是头文件）
+
+9.预排版功能之『小节』
+
+​	避免写出一连串没有额外空行的文章。这能更符合word使用者的观感，对除此以外的人也有帮助。
+
+10.向量AB上面的箭头。
+
+​	玢璃认为打箭头表示向量，不如打粗体为好。但是仍有这样的需求所以做了。更新特殊简码xl和全码xiangl。只更新右箭头。
+
+11.对文档默认的黑色进行修改。
+
+
+
+
+
+
+
+
+
+
+
+
+
+以下是玢辣v1.1正文：
+
+% 头文件
+% 文档类别+中文支持+开启强制粗体
+\documentclass[UTF8,AutoFakeBold]{ctexbook}
+\usepackage{ctex}
+
+% 【文档类别专属调整】
+% 【论文】修改摘要字体字号
+%\usepackage{abstract}
+% renewcommand是重命名已有函数
+% 第一个大括号表示系统内部一个隐藏的函数，即摘要名字体
+% 第二个大括号里有两个函数，第一个函数使标题变大，参见第一个大括号里的内容
+%\renewcommand{\abstractnamefont}{\Large\bfseries}
+
+% 支持调用系统中已经安装的英文/中文字体，比如霞鹜文楷
+\usepackage{fontspec}
+\usepackage{xeCJK}
+% 直立的德式数学字体
+\usepackage{ccfonts}
+\newcommand\ibinom[2]{\genfrac\lbrace\rbrace{0pt}{}{#1}{#2}}
+\usepackage[euler-digits]{eulervm}
+% main sans mono相当于衬线/无衬线/等宽
+% 下面的字体需要上传到overleaf上！
+% 下面的字体是中文字体，去掉CJK即为英文字体
+\setCJKmainfont{LXGWWenKaiScreenR.ttf}
+\setCJKsansfont{LXGWWenKaiScreenR.ttf}
+\setCJKmonofont{LXGWWenKaiScreenR.ttf}
+\setmainfont{LXGWWenKaiScreenR.ttf}
+\setsansfont{Arial}
+\setmonofont{Arial}
+% 设置纸张大小和边沿
+% marginparwidth不知道啥意思，有没有用，原来是1.75cm
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=1.5cm,bottom=1.5cm,left=1cm,right=1cm,marginparwidth=0cm]{geometry}
+% 设置字体大小，可以同步到正文、标题等不同情况
+\usepackage[fontsize=14pt]{fontsize}
+
+% 基本的数学和图形包
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{bm,graphicx}
+\usepackage{pgfplots}
+% 超链接
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+% 颜色
+\usepackage{xcolor}
+
+% 插入代码
+\usepackage{listings}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+% 各个语言的代码的通用设置，下面的属性和各个语言内部的设置差不多
+\lstset{
+    basicstyle          =   \sffamily,          % 基本代码风格
+    keywordstyle        =   \bfseries,          % 关键字风格
+    commentstyle        =   \rmfamily\itshape,  % 注释的风格，斜体
+    stringstyle         =   \ttfamily,  % 字符串风格
+    flexiblecolumns,                % 别问为什么，加上这个
+    numbers             =   left,   % 行号的位置在左边
+    showspaces          =   false,  % 是否显示空格，显示了有点乱，所以不显示了
+    numberstyle         =   \zihao{5}\ttfamily,    % 行号的样式，小五号，tt等宽字体
+    showstringspaces    =   false,
+    captionpos          =   t,      % 这段代码的名字所呈现的位置，t指的是top上面
+    frame               =   lrtb,   % 显示边框，四个字母代表四个方向
+    tabsize=3,
+}
+% 各个语言分开设置
+\lstdefinestyle{moren}{
+    language        =   Python, % 语言选Python
+    basicstyle      =   \small\ttfamily,
+    numberstyle     =   \small\ttfamily\color{red},
+    keywordstyle    =   \color{blue},
+    keywordstyle    =   [2] \color{teal},
+    stringstyle     =   \color{mauve},
+    commentstyle    =   \color{dkgreen},
+    breaklines      =   true,   % 自动换行，建议不要写太长的行
+    columns         =   flexible,  % 如果不加这一句，字间距就不固定，很丑，必须加
+    basewidth       =   0.5em,
+}
+
+% 修正不能段首空格的bug
+\usepackage{indentfirst}
+
+% 下面的包修正插入的图片四处乱动的bug
+% 要在插论文的时候写\begin{figure}[H]
+\usepackage{float}
+
+% 书籍的各个模块
+\newtheorem{theorem}{定理}[section]
+\newtheorem{definition}{定义}[section]
+\newtheorem{lemma}{引理}[section]
+\newtheorem{corollary}{推论}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{conjecture}{猜想}[section]
+\newtheorem{remark}{注解}[section]
+\newtheorem{example}{例}[section]
+\newtheorem{problem}{问题}[section]
+\newtheorem{assumption}{假设}[section]
+\newtheorem{conditions}{条件}[section]
+\newtheorem{property}{性质}[section]
+\newtheorem{pr}{证明}[section]
+
+% 设置标题和作者。函数以右斜线打头，自变量用大括号
+\title{FENLA}
+\author{玢璃 FENLI OUFEJIS OF ZJRCJUANG}
+% date函数可以设置日期
+
+
+% 下面是FENLA的魔改环节
+% 空格
+\newcommand{\kg}{\hspace*{0.5em}}
+% FENLA一期
+\newcommand{\huati}{\mathcal}
+\newcommand{\sansheng}{\check}
+\newcommand{\biyin}{\tilde}
+\newcommand{\ersheng}{\acute}
+\newcommand{\sisheng}{\grave}
+\newcommand{\dahat}{\widehat}
+\newcommand{\dabiy}{\widetilde}
+\newcommand{\gama}{\gamma}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\kapa}{\kappa}
+\newcommand{\lamda}{\lambda}
+\newcommand{\miu}{\mu}
+\newcommand{\niu}{\nu}
+\newcommand{\ksi}{\xi}
+\newcommand{\ksai}{\xi}
+\newcommand{\pai}{\pi}
+\newcommand{\rou}{\rho}
+\newcommand{\tao}{\tau}
+\newcommand{\psai}{\psi}
+\newcommand{\fai}{\phi}
+\newcommand{\vphi}{\varphi}
+\newcommand{\vfai}{\varphi}
+\newcommand{\kai}{\chi}
+\newcommand{\dagamma}{\Gamma}
+\newcommand{\dagama}{\Gamma}
+\newcommand{\dalambda}{\Lambda}
+\newcommand{\dalamda}{\Lambda}
+\newcommand{\dapsai}{\Psi}
+\newcommand{\daksi}{\Xi}
+\newcommand{\daksai}{\Xi}
+\newcommand{\daphi}{\Phi}
+\newcommand{\dafai}{\Phi}
+\newcommand{\daomega}{\Omega}
+\newcommand{\dasigma}{\Sigma}
+\newcommand{\xd}{\le}
+\newcommand{\dd}{\ge}
+\newcommand{\hd}{\equiv}
+\newcommand{\bhd}{\notequiv}
+\newcommand{\xxd}{\ll}
+\newcommand{\ddd}{\gg}
+\newcommand{\diand}{\doteq}
+\newcommand{\bolang}{\sim}
+\newcommand{\bolangd}{\simeq}
+\newcommand{\bd}{\ne}
+\newcommand{\bxd}{\notle}
+\newcommand{\bdd}{\notge}
+\newcommand{\bbolang}{\notsim}
+\newcommand{\dengj}{\sim}
+\newcommand{\xiangs}{\sim}
+\newcommand{\bdengj}{\notsim}
+\newcommand{\bxiangs}{\notsim}
+\newcommand{\zhenzj}{\subset}
+\newcommand{\zhenhany}{\subset}
+\newcommand{\zhencj}{\supset}
+\newcommand{\zhenhan}{\supset}
+\newcommand{\yued}{\approx}
+\newcommand{\zj}{\subseteq}
+\newcommand{\hany}{\subseteq}
+\newcommand{\cj}{\supseteq}
+\newcommand{\han}{\supseteq}
+\newcommand{\shuyu}{\in}
+\newcommand{\sy}{\in}
+\newcommand{\bsy}{\notin}
+\newcommand{\yongy}{\ni}
+\newcommand{\zhengby}{\propto}
+\newcommand{\chuiz}{\perp}
+\newcommand{\zhengj}{\perp}
+\newcommand{\bchuiz}{\notperp}
+\newcommand{\bzhengj}{\notperp}
+\newcommand{\bh}{\supseteq}
+\newcommand{\bhy}{\subseteq}
+\newcommand{\zhenbh}{\supset}
+\newcommand{\zhenbhy}{\subset}
+\newcommand{\bbh}{\notsupseteq}
+\newcommand{\bbhy}{\notsubseteq}
+\newcommand{\bzhenbh}{\notsupset}
+\newcommand{\bzhenbhy}{\notsubset}
+\newcommand{\yd}{\approx}
+\newcommand{\byued}{\notapprox}
+\newcommand{\bbolangd}{\notsimeq}
+\newcommand{\bzhenzj}{\notsubset}
+\newcommand{\bzhenhany}{\notsubset}
+\newcommand{\bzhencj}{\notsupset}
+\newcommand{\bzhenhan}{\notsupset}
+\newcommand{\bzj}{\notsubseteq}
+\newcommand{\bhany}{\notsubseteq}
+\newcommand{\bcj}{\notsupseteq}
+\newcommand{\bhan}{\notsupseteq}
+\newcommand{\bshuyu}{\notin}
+\newcommand{\byongy}{\notni}
+\newcommand{\bzhengby}{\notpropto}
+\newcommand{\zf}{\pm}
+\newcommand{\fz}{\mp}
+\newcommand{\dianc}{\cdot}
+\newcommand{\chu}{\div}
+\newcommand{\cha}{\times}
+\newcommand{\jihejian}{\setminus}
+\newcommand{\xing}{\star}
+\newcommand{\bing}{\cup}
+\newcommand{\jiao}{\cap}
+\newcommand{\xingx}{\ast}
+\newcommand{\quan}{\circ}
+\newcommand{\quda}{\vee}
+\newcommand{\quxiao}{\wedge}
+\newcommand{\yuan}{\bullet}
+\newcommand{\qh}{\sum}
+\newcommand{\dabing}{\bigcup}
+\newcommand{\daquda}{\bigvee}
+\newcommand{\lianc}{\prod}
+\newcommand{\dajiao}{\bigcap}
+\newcommand{\daquxiao}{\bigwedge}
+\newcommand{\jf}{\int}
+\newcommand{\huanjf}{\oint}
+\newcommand{\zhihe}{\oplus}
+\newcommand{\dazhihe}{\bigoplus}
+\newcommand{\xiaslh}{\dots}
+\newcommand{\slh}{\cdots}
+\newcommand{\shuslh}{\vdots}
+\newcommand{\xieslh}{\ddots}
+\newcommand{\alef}{\aleph}
+\newcommand{\renyi}{\forall}
+\newcommand{\cunzai}{\exists}
+\newcommand{\pds}{\partial}
+\newcommand{\piands}{\partial}
+\newcommand{\grad}{\nabla}
+\newcommand{\sanj}{\triangle}
+\newcommand{\jiaodu}{\angle}
+\newcommand{\suoyi}{\therefore}
+\newcommand{\yinwei}{\because}
+\newcommand{\kongji}{\varnothing}
+\newcommand{\kj}{\varnothing}
+\newcommand{\wuq}{\infty}
+% FENLA二期
+\newcommand{\khzuo}{\left}
+\newcommand{\khyou}{\right}
+\newcommand{\khda}{\big}
+\newcommand{\khxiao}{\small}
+\newcommand{\shangkh}{\overbrace}
+\newcommand{\xiakh}{\underbrace}
+\newcommand{\erjf}{\iint}
+\newcommand{\sanjf}{\iiint}
+\newcommand{\sijf}{\iiiint}
+\newcommand{\jfjf}{\iint}
+\newcommand{\jfjfjf}{\iiint}
+\newcommand{\jfjfjfjf}{\iiiint}
+\newcommand{\jfslhjf}{\idotsint}
+\newcommand{\duocjf}{\idotsint}
+\newcommand{\sdian}{\dot}
+\newcommand{\serdian}{\ddot}
+\newcommand{\sjt}{\uparrow}
+\newcommand{\yanz}{\uparrow}
+\newcommand{\xjt}{\downarrow}
+\newcommand{\yanj}{\downarrow}
+\newcommand{\zjt}{\leftarrow}
+\newcommand{\yjt}{\to}
+\newcommand{\quyu}{\to}
+\newcommand{\changsjt}{\longuparrow}
+\newcommand{\changxjt}{\longdownarrow}
+\newcommand{\changzjt}{\longleftarrow}
+\newcommand{\changyjt}{\longrightarrow}
+\newcommand{\dachangsjt}{\Longuparrow}
+\newcommand{\dachangxjt}{\Longdownarrow}
+\newcommand{\dachangzjt}{\Longleftarrow}
+\newcommand{\dachangyjt}{\Longrightarrow}
+\newcommand{\dasjt}{\Uparrow}
+\newcommand{\daxjt}{\Downarrow}
+\newcommand{\dazjt}{\Leftarrow}
+\newcommand{\laizi}{\Leftarrow}
+\newcommand{\dayjt}{\Rightarrow}
+\newcommand{\tuichu}{\Rightarrow}
+\newcommand{\bdayjt}{\notRightarrow}
+\newcommand{\btuichu}{\notRightarrow}
+\newcommand{\sxjt}{\updownarrow}
+\newcommand{\dasxjt}{\Updownarrow}
+\newcommand{\zyjt}{\leftrightarrow}
+\newcommand{\dazyjt}{\Leftrightarrow}
+\newcommand{\dachangzyjt}{\Longleftrightarrow}
+\newcommand{\yingsjt}{\mapsto}
+\newcommand{\changyingsjt}{\longmapsto}
+\newcommand{\kenid}{\rightleftharpoons}
+\newcommand{\ysjt}{\nearrow}
+\newcommand{\danz}{\nearrow}
+\newcommand{\yxjt}{\searrow}
+\newcommand{\danj}{\searrow}
+\newcommand{\zxjt}{\swarrow}
+\newcommand{\zsjt}{\nwarrow}
+\newcommand{\zyuanjt}{\circlearrowleft}
+\newcommand{\yyuanjt}{\circlearrowright}
+\newcommand{\bsjt}{\notuparrow}
+\newcommand{\byanz}{\notuparrow}
+\newcommand{\bxjt}{\notdownarrow}
+\newcommand{\byanj}{\notdownarrow}
+\newcommand{\bzjt}{\notleftarrow}
+\newcommand{\byjt}{\notrightarrow}
+\newcommand{\bquyu}{\notrightarrow}
+\newcommand{\bchangsjt}{\notlonguparrow}
+\newcommand{\bchangxjt}{\notlongdownarrow}
+\newcommand{\bchangzjt}{\notlongleftarrow}
+\newcommand{\bchangyjt}{\notlongrightarrow}
+\newcommand{\bdachangsjt}{\notLonguparrow}
+\newcommand{\bdachangxjt}{\notLongdownarrow}
+\newcommand{\bdachangzjt}{\notLongleftarrow}
+\newcommand{\bdachangyjt}{\notLongrightarrow}
+\newcommand{\bdasjt}{\notUparrow}
+\newcommand{\bdaxjt}{\notDownarrow}
+\newcommand{\bdazjt}{\notLeftarrow}
+\newcommand{\blaizi}{\notLeftarrow}
+\newcommand{\bsxjt}{\notupdownarrow}
+\newcommand{\bdasxjt}{\notUpdownarrow}
+\newcommand{\bzyjt}{\notleftrightarrow}
+\newcommand{\bdazyjt}{\notLeftrightarrow}
+\newcommand{\bdachangzyjt}{\notLongleftrightarrow}
+\newcommand{\byingsjt}{\notmapsto}
+\newcommand{\bchangyingsjt}{\notlongmapsto}
+\newcommand{\bkenid}{\notrightleftharpoons}
+\newcommand{\bysjt}{\notnearrow}
+\newcommand{\bdanz}{\notnearrow}
+\newcommand{\byxjt}{\notsearrow}
+\newcommand{\bdanj}{\notsearrow}
+\newcommand{\bzxjt}{\notswarrow}
+\newcommand{\bzsjt}{\notnwarrow}
+\newcommand{\bzyuanjt}{\notcirclearrowleft}
+\newcommand{\byyuanjt}{\notcirclearrowright}
+\newcommand{\zjiankh}{\langle}
+\newcommand{\yjiankh}{\rangle}
+\newcommand{\zdadkh}{\lgroup}
+\newcommand{\ydadkh}{\rgroup}
+\newcommand\ZZ{{\mathbb Z}}
+\newcommand\RR{{\mathbb R}}
+\newcommand\CC{{\mathbb C}}
+\newcommand\QQ{{\mathbb Q}}
+\newcommand\EE{{\mathbb E}}
+\newcommand\VV{{\mathbb V}}
+\newcommand\II{{\mathbb I}}
+\newcommand\PP{{\mathbb P}}
+\newcommand{\shuxuecuti}{\mathbb}
+\newcommand{\gh}{\sqrt}
+\newcommand{\fen}{\frac}
+\newcommand{\ys}{\color}
+\newcommand{\ct}{\textbf}
+\newcommand{\zshangqz}{\lceil}
+\newcommand{\yshangqz}{\rceil}
+\newcommand{\zxiaqz}{\lfloor}
+\newcommand{\yxiaqz}{\rfloor}
+% FENLA三期
+% 类似双重极限的下标，本质上可以生成『更下方』
+\newcommand{\xia}{\atop}
+% 字体大小设置，暂且设定部分，在整个大括号（区块）生效
+\newcommand{\da}{\large}
+\newcommand{\dada}{\Large}
+\newcommand{\dadada}{\LARGE}
+\newcommand{\juda}{\huge}
+% 行间公式
+\newcommand{\hj}[1]{\begin{equation*}\begin{aligned} #1 \end{aligned}\end{equation*}}
+% 『盒子』是FENLA的基本概念，顾名思义。可以用来在公式环境里写字。
+\newcommand{\hezi}{\mbox}
+% 花体快捷命令
+\newcommand{\Ah}{\mathcal{A}}
+\newcommand{\Bh}{\mathcal{B}}
+\newcommand{\Ch}{\mathcal{C}}
+\newcommand{\Dh}{\mathcal{D}}
+\newcommand{\Eh}{\mathcal{E}}
+\newcommand{\Fh}{\mathcal{F}}
+\newcommand{\Gh}{\mathcal{G}}
+\newcommand{\Hh}{\mathcal{H}}
+\newcommand{\Ih}{\mathcal{I}}
+\newcommand{\Jh}{\mathcal{J}}
+\newcommand{\Kh}{\mathcal{K}}
+\newcommand{\Lh}{\mathcal{L}}
+\newcommand{\Mh}{\mathcal{M}}
+\newcommand{\Nh}{\mathcal{N}}
+\newcommand{\Oh}{\mathcal{O}}
+\newcommand{\Ph}{\mathcal{P}}
+\newcommand{\Qh}{\mathcal{Q}}
+\newcommand{\Rh}{\mathcal{R}}
+\newcommand{\Sh}{\mathcal{S}}
+\newcommand{\Th}{\mathcal{T}}
+\newcommand{\Uh}{\mathcal{U}}
+\newcommand{\Vh}{\mathcal{V}}
+\newcommand{\Wh}{\mathcal{W}}
+\newcommand{\Xh}{\mathcal{X}}
+\newcommand{\Yh}{\mathcal{Y}}
+\newcommand{\Zh}{\mathcal{Z}}
+% 八股文
+% 写书建议用，但因为内部暂时无法插入换段，做笔记时不建议用。可以自己写『证明：』。
+\newcommand{\duan}{\par}
+% 能把环境（begin，end）塞到函数里，然而用不了一些空格，里面换段需要继续加大括号把段内容包进去，不建议换段，比较麻烦
+% 下面的方式就是在前面没有文字的时候强制换行强制加空格
+\def\wenti#1{\begin{problem}~\\{\text { ~\ ~\ ~\ }}#1\end{problem}}
+\def\jiashe#1{\begin{assumption}~\\{\text { ~\ ~\ ~\ }}#1\end{assumption}}
+\def\dingyi#1{\begin{definition}~\\{\text { ~\ ~\ ~\ }}#1\end{definition}}
+\def\xingzhi#1{\begin{property}~\\{\text { ~\ ~\ ~\ }}#1\end{property}}
+\def\mingti#1{\begin{proposition}~\\{\text { ~\ ~\ ~\ }}#1\end{proposition}}
+\def\yinli#1{\begin{lemma}~\\{\text { ~\ ~\ ~\ }}#1\end{lemma}}
+\def\dingli#1{\begin{theorem}~\\{\text { ~\ ~\ ~\ }}#1\end{theorem}}
+\def\tuilun#1{\begin{corollary}~\\{\text { ~\ ~\ ~\ }}#1\end{corollary}}
+\def\lizi#1{\begin{example}~\\{\text { ~\ ~\ ~\ }}#1\end{example}}
+\def\zhujie#1{\begin{remark}~\\{\text { ~\ ~\ ~\ }}#1\end{remark}}
+\def\zhengm#1{\begin{pr}~\\{\text { ~\ ~\ ~\ }}#1\end{pr}}
+% 代数
+\def\jz#1{\begin{bmatrix}#1\end{bmatrix}}
+% 行列式。虽然模式写的是cccc但m行n列均可
+\def\hls#1{\left |\begin{array}{cccc}#1\end{array}\right|}
+\newcommand{\fanxx}{\backslash}
+\newcommand{\fanxiex}{\backslash}
+
+% 玢辣 版本1.1
+% 如果是前版本的代码出问题，就在前面改了。
+% 上标
+\def\bar{\overline}
+\def\pingj{\overline}
+\def\biyin{\widetilde}
+\def\hat{\widehat}
+% 箭头上标
+\def\xiangl{\overrightarrow}
+\def\xl{\overrightarrow}
+% 小节功能。
+\def\xiaoj#1{\konghang\busuojin\ct{\da{#1}}}
+\newcommand{\fucong}{\sim}
+% 列表
+\newenvironment{wxlb}{\begin{itemize}}{\end{itemize}}
+\newenvironment{yxlb}{\begin{enumerate}}{\end{enumerate}}
+% 文档及预配置黑色，也是设置全文颜色/定义ys函数中带有特殊名字的颜色的方法（它可以方便地设置全文颜色，不需要把文档框起来），不会覆盖之后设置的局部颜色
+\definecolor{tebieheise}{RGB}{55,55,55}
+\newenvironment{wendang}{\begin{document}\color{tebieheise}}{\end{document}}
+% 这个item的翻译想了半天，感觉条tiao比项xiang/点dian更符合直觉
+\def\tiao{\item}
+% 预配置颜色
+\def\zs#1{\textcolor[RGB]{186,20,79}{#1}}
+\def\hs#1{\textcolor[RGB]{241,95,95}{#1}}
+\def\cs#1{\textcolor[RGB]{235,149,45}{#1}}
+\def\ls#1{\textcolor[RGB]{11,64,117}{#1}}
+\def\lvs#1{\textcolor[RGB]{114,163,114}{#1}}
+\def\fs#1{\textcolor[RGB]{255,140,140}{#1}}
+\def\qs#1{\textcolor[RGB]{49,164,164}{#1}}
+% 预配置带颜色格式
+% 把重点的代码移动到这里。我个人习惯称重点，也可以称强调qd，如果函数名不冲突的话。
+% 玢璃认为同一篇文档的重点颜色最好比较少，所以统一留在这里改
+\def\zd#1{\textbf{\ys{purple}#1}}
+% 第二重点zdzd，颜色也是使用者自定的。
+\def\zdzd#1{\textbf{\textcolor[RGB]{186,20,79}{#1}}}
+
+% 【文档类型专属】FENLA
+% FENLA【书籍部分】
+\newcommand{\konghang}{\bigskip}
+\newcommand{\busuojin}{\noindent}
+\newcommand{\mulu}{\tableofcontents}
+\newcommand{\jiarumulu}{\addcontentsline}
+\newcommand{\suoyin}{\index}

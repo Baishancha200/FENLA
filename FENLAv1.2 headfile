@@ -1,0 +1,22 @@
+玢辣头文件
+需要根据你想写的文章类型进行修改
+并配合fenla程序包
+
+\documentclass[UTF8,AutoFakeBold]{ctexbook}
+\usepackage{fenla}
+
+% 【文档类别专属调整】
+% 【论文】修改摘要字体字号
+%\usepackage{abstract}
+% renewcommand是重命名已有函数
+% 第一个大括号表示系统内部一个隐藏的函数，即摘要名字体
+% 第二个大括号里有两个函数，第一个函数使标题变大，参见第一个大括号里的内容
+%\renewcommand{\abstractnamefont}{\Large\bfseries}
+
+% 【文档类型专属】FENLA
+% FENLA【书籍部分】
+\newcommand{\konghang}{\bigskip}
+\newcommand{\busuojin}{\noindent}
+\newcommand{\mulu}{\tableofcontents}
+\newcommand{\jiarumulu}{\addcontentsline}
+\newcommand{\suoyin}{\index}

@@ -1,0 +1,119 @@
+\documentclass[UTF8,AutoFakeBold]{ctexbook}
+\usepackage{fenla}
+
+% 【文档类别专属调整】
+% 【论文】修改摘要字体字号
+%\usepackage{abstract}
+% renewcommand是重命名已有函数
+% 第一个大括号表示系统内部一个隐藏的函数，即摘要名字体
+% 第二个大括号里有两个函数，第一个函数使标题变大，参见第一个大括号里的内容
+%\renewcommand{\abstractnamefont}{\Large\bfseries}
+
+% 【文档类型专属】FENLA
+% FENLA【书籍部分】
+\newcommand{\konghang}{\bigskip}
+\newcommand{\busuojin}{\noindent}
+\newcommand{\mulu}{\tableofcontents}
+\newcommand{\jiarumulu}{\addcontentsline}
+\newcommand{\suoyin}{\index}
+
+
+
+
+
+
+
+\begin{wendang}
+
+\chapter{本书纲要}
+
+测度论是在抽象空间（任意的具备一定所需性质的集合）建立类似于实变函数中测度、积分和导数那样的分析系统。本书只选择那些在概率论尤其是独立随机变量研究中会用到的测度论内容。
+\konghang
+
+第一章：可测空间和可测映射
+
+\begin{yxlb}
+\t 集合及其运算
+\t 常见集族
+\t 集族的张成
+\t 可测映射及其运算
+
+\end{yxlb}
+
+第二章：测度
+
+\begin{yxlb}
+\t 测度和外测度
+\t 外测度扩张到测度
+\t 测度的完备化
+\t 可测函数的收敛性
+
+\end{yxlb}
+
+第三章：测度的积分
+
+\begin{yxlb}
+\t 测度积分的逐步定义
+\t 测度积分的性质
+\t 测度积分极限的性质
+\t 可测函数空间$L_p$
+\t 概率测度积分
+
+\end{yxlb}
+
+第四章：带号测度与微积分基本定理
+
+\begin{yxlb}
+\t 带号测度
+\t 测度的正部和负部
+\t Radon-Nikodym定理（相当于Newton-Leibniz定理）
+\t 条件
+
+\end{yxlb}
+
+第五章：乘积空间
+
+\begin{yxlb}
+\t 有限维乘积空间
+\t 高维L-S测度
+
+\end{yxlb}
+
+第六章：独立
+
+\begin{yxlb}
+\t 0-1律：尾事件的概率非0即1
+\t Borel-Cantelli引理：尾事件的概率是0还是1
+\t 三级数定理：随机级数收敛的充要条件
+\t 强大数定理：只需要期望存在
+\t 弱大数定理
+\t 中心极限定理：Linderberg充要条件
+
+\end{yxlb}
+
+\begin{tupian}
+\juzhong
+\charutupian[width=0.8\linewidth]{风筝.jpg}
+\end{tupian}
+
+\input{测度论笔记1章}
+
+\input{测度论笔记2章}
+
+
+
+\end{wendang}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

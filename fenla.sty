@@ -1,6 +1,8 @@
 \ProvidesPackage{fenla}
+% 玢辣 版本1.2.1
 
-% 1. 不常用的外部设置使用全拼，而需要经常使用的数学符号等函数进行简化。比如『shux‑ uecuti 数学粗体』和『jf 积分号』的区别。
+
+% 1. 不常用的外部设置使用全拼，而需要经常使用的数学符号等函数进行简化。比如『shuxuecuti 数学粗体』和『jf 积分号』的区别。
 % 2. 在中文数学证明中就能直接使用的英文字母，不进行改动。比如『lim』、『liminf』。 
 % 3. 6 字母法则：如果函数名的中文意义是两个字，如果它们的全拼不超过 6 个字母，那就 使用全拼；否则使用『全 + 首』模式；如果函数名的中文意义是三个字（一般超过了 6 个字母），那就使用『全 + 首 + 首』（不排除使用『全 + 全 + 首』，取决于这三个字哪两 个能够组词）。
 % 4. 极简法则：在数学中极其常见的函数和前后缀，以取首字母为主。它们的列表是：『d 等 号』、『b 否定前缀/不』、『jt 箭头』、『kh 括号』、『ds 导数』、『jf 积分』、『qh 求和』、『slh 省略号』、『gh 根号』、『ys 颜色』、『qz 取整』、『sxzy 上下左右』。（前后缀不受 6 字母法 则限制。）
@@ -14,15 +16,15 @@
 % ctrl+鼠标前拖动：同时选择多个地方
 % shift+上下左右：不用鼠标进行选择（和前一项不兼容）
 % ctrl+enter：运行选中部分或（若无选中部分则为）当前行
+% ctrl+左键：选中多处光标，可以用来同时粘贴到多个地方
+% ctrl+/：备注多行，overleaf快捷键，判定比较智能
 
 
 
-% 头文件
-% 文档类别+中文支持+开启强制粗体
-% 应在模板外设置
-% \documentclass[UTF8,AutoFakeBold]{ctexbook}
+% 玢辣1.0内容
+
+% 中文支持
 \usepackage{ctex}
-
 % 支持调用系统中已经安装的英文/中文字体，比如霞鹜文楷
 \usepackage{fontspec}
 \usepackage{xeCJK}
@@ -30,6 +32,7 @@
 \usepackage{ccfonts}
 \newcommand\ibinom[2]{\genfrac\lbrace\rbrace{0pt}{}{#1}{#2}}
 \usepackage[euler-digits]{eulervm}
+% 设置默认中英文字体
 % main sans mono相当于衬线/无衬线/等宽
 % 下面的字体需要上传到overleaf上！
 % 下面的字体是中文字体，去掉CJK即为英文字体
@@ -37,23 +40,15 @@
 \setCJKsansfont{LXGWWenKaiScreenR.ttf}
 \setCJKmonofont{LXGWWenKaiScreenR.ttf}
 \setmainfont{LXGWWenKaiScreenR.ttf}
-\setsansfont{Arial}
-\setmonofont{Arial}
-% 设置纸张大小和边沿
-% marginparwidth不知道啥意思，有没有用，原来是1.75cm
-% Replace `letterpaper' with `a4paper' for UK/EU standard size
-\usepackage[letterpaper,top=1.5cm,bottom=1.5cm,left=1cm,right=1cm,marginparwidth=0cm]{geometry}
-% 设置字体大小，可以同步到正文、标题等不同情况
-\usepackage[fontsize=14pt]{fontsize}
+\setsansfont{LXGWWenKaiScreenR.ttf}
+\setmonofont{LXGWWenKaiScreenR.ttf}
+
+
 
 % 基本的数学和图形包
 \usepackage{amsmath,amsthm,amssymb,amsfonts}
 \usepackage{bm,graphicx}
 \usepackage{pgfplots}
-% 超链接
-\usepackage[colorlinks=true, allcolors=blue]{hyperref}
-% 颜色
-\usepackage{xcolor}
 
 % 插入代码
 \usepackage{listings}
@@ -95,26 +90,6 @@
 % 下面的包修正插入的图片四处乱动的bug
 % 要在插论文的时候写\begin{figure}[H]
 \usepackage{float}
-
-% 书籍的各个模块
-\newtheorem{theorem}{定理}[section]
-\newtheorem{definition}{定义}[section]
-\newtheorem{lemma}{引理}[section]
-\newtheorem{corollary}{推论}[section]
-\newtheorem{proposition}{命题}[section]
-\newtheorem{conjecture}{猜想}[section]
-\newtheorem{remark}{注解}[section]
-\newtheorem{example}{例}[section]
-\newtheorem{problem}{问题}[section]
-\newtheorem{assumption}{假设}[section]
-\newtheorem{conditions}{条件}[section]
-\newtheorem{property}{性质}[section]
-\newtheorem{pr}{证明}[section]
-
-% 设置标题和作者。函数以右斜线打头，自变量用大括号
-\title{FENLA}
-\author{玢璃 FENLI OUFEJIS OF ZJRCJUANG}
-% date函数可以设置日期
 
 % 下面是FENLA的魔改环节
 % 空格
@@ -197,7 +172,6 @@
 \def\daomega{\mbox{$\Omega$}}
 \def\dasig{\mbox{$\Sigma$}}
 \def\dasigma{\mbox{$\Sigma$}}
-
 % 正文插入数学环境的拉丁字母，如果有未知bug注意renew的地方
 \newcommand{\A}{\mbox{$A$}}
 \newcommand{\B}{\mbox{$B$}}
@@ -278,17 +252,30 @@
 \newcommand{\Xh}{\mbox{$\mathcal{X}$}}
 \newcommand{\Yh}{\mbox{$\mathcal{Y}$}}
 \newcommand{\Zh}{\mbox{$\mathcal{Z}$}}
-
-% 正文插入数学环境的空心体
+% 正文插入数学环境的空心体，重定义了\skew
 \newcommand{\CC}{\mbox{$\mathbb C$}}
 \newcommand{\RR}{\mbox{$\mathbb R$}}
 \newcommand{\QQ}{\mbox{$\mathbb Q$}}
 \newcommand{\II}{\mbox{$\mathbb I$}}
-\newcommand{\NN}{\mbox{$\mathbb N$}}
 \newcommand{\ZZ}{\mbox{$\mathbb Z$}}
+\newcommand{\NN}{\mbox{$\mathbb N$}}
 \newcommand{\PP}{\mbox{$\mathbb P$}}
 \newcommand{\EE}{\mbox{$\mathbb E$}}
 \newcommand{\VV}{\mbox{$\mathbb V$}}
+\newcommand{\BB}{\mbox{$\mathbb B$}}
+% 下面为空心体衍生的统计学符号。除MSE以外，因正文中的用处较少，不再使用盒子。
+\newcommand{\MSE}{\mbox{$\mathbb{MSE}$}}
+\newcommand{\mse}{\mbox{$\mathbb{MSE}$}}
+\newcommand{\SE}{\mathbb{SE}}
+\newcommand{\se}{\mathbb{SE}}
+\newcommand{\Var}{\mathbb{V}\mathrm{ar}}
+\newcommand{\var}{\mathbb{V}\mathrm{ar}}
+\newcommand{\Bias}{\mathbb{B}\mathrm{ias}}
+\newcommand{\bias}{\mathbb{B}\mathrm{ias}}
+\newcommand{\Skew}{\mathbb{S}\mathrm{kew}}
+\renewcommand{\skew}{\mathbb{S}\mathrm{kew}}
+\newcommand{\Kurt}{\mathbb{K}\mathrm{urt}}
+\newcommand{\kurt}{\mathbb{K}\mathrm{urt}}
 
 % 正文插入数学环境的数字
 \newcommand{\ling}{\mbox{$0$}}
@@ -401,7 +388,6 @@
 \newcommand{\kongji}{\varnothing}
 \newcommand{\kj}{\varnothing}
 \newcommand{\wuq}{\infty}
-% FENLA二期
 \newcommand{\khzuo}{\left}
 \newcommand{\khyou}{\right}
 \newcommand{\khda}{\big}
@@ -492,8 +478,6 @@
 \newcommand{\byyuanjt}{\notcirclearrowright}
 \newcommand{\zjiankh}{\langle}
 \newcommand{\yjiankh}{\rangle}
-%\newcommand{\zdadkh}{\lgroup}
-%\newcommand{\ydadkh}{\rgroup}
 \newcommand{\shuxuecuti}{\mathbb}
 \newcommand{\gh}{\sqrt}
 \newcommand{\fen}{\frac}
@@ -503,7 +487,6 @@
 \newcommand{\yshangqz}{\rceil}
 \newcommand{\zxiaqz}{\lfloor}
 \newcommand{\yxiaqz}{\rfloor}
-% FENLA三期
 % 类似双重极限的下标，本质上可以生成『更下方』
 \newcommand{\xia}{\atop}
 % 字体大小设置，暂且设定部分，在整个大括号（区块）生效
@@ -545,6 +528,7 @@
 \def\pingj{\overline}
 \def\biyin{\widetilde}
 \def\hat{\widehat}
+\def\guji{\widehat}
 % 箭头上标
 \def\xiangl{\overrightarrow}
 \def\xl{\overrightarrow}
@@ -603,33 +587,101 @@
 % 根据使用，追加『趋于』简码qy
 % 趋于无穷，简码：qywq，qyzwq，qyfwq
 % 趋于零，简码：qyl，qylz，qylf（lz零正，这是根据玢璃的个人习惯，读者可以修改成你习惯的，比如zl正零）
-% 为保证一致，使用『\;』空格
-\def\qy{\hezi{$\;\to$}}
-\def\quyu{\hezi{$\;\to$}}
-\def\bqy{\hezi{$\;\notrightarrow$}}
-\def\bquyu{\hezi{$\;\notrightarrow$}}
-\def\qywq{\hezi{$\;\quyu\wuq$}}
-\def\qyzwq{\hezi{$\;\quyu+\wuq$}}
-\def\qyfwq{\hezi{$\;\quyu-\wuq$}}
-\def\qyl{\hezi{$\;\quyu 0$}}
-\def\qylz{\hezi{$\;\quyu 0+$}}
-\def\qylf{\hezi{$\;\quyu 0-$}}
+% 为保证与正文一定的隔离性（与原始函数风格一致），使用『\;』空格
+\def\qy{\hezi{$\;\to\;$}}
+\def\quyu{\hezi{$\;\to\;$}}
+\def\bqy{\hezi{$\;\notrightarrow\;$}}
+\def\bquyu{\hezi{$\;\notrightarrow\;$}}
+\def\qywq{\hezi{$\to\wuq$}}
+\def\qyzwq{\hezi{$\;\to+\wuq\;$}}
+\def\qyfwq{\hezi{$\;\toquyu-\wuq\;$}}
+\def\qyl{\hezi{$\;\to 0\;$}}
+\def\qylz{\hezi{$\;\to 0+\;$}}
+\def\qylf{\hezi{$\;\to 0-\;$}}
 
-% \documentclass[UTF8,AutoFakeBold]{ctexbook}
-% \usepackage{fenla}
 
-% % 【文档类别专属调整】
-% % 【论文】修改摘要字体字号
-% %\usepackage{abstract}
+% 下面是fenla的正文头文件
+
+% 【文档类别专属调整】
+
+
+% % 【论文】
+% \documentclass[UTF8,AutoFakeBold]{ctexart}
+% % 修改摘要字体字号
+% \usepackage{abstract}
 % % renewcommand是重命名已有函数
 % % 第一个大括号表示系统内部一个隐藏的函数，即摘要名字体
 % % 第二个大括号里有两个函数，第一个函数使标题变大，参见第一个大括号里的内容
-% %\renewcommand{\abstractnamefont}{\Large\bfseries}
+% \renewcommand{\abstractnamefont}{\Large\bfseries}
 
-% % 【文档类型专属】FENLA
-% % FENLA【书籍部分】
+% % 【书籍】
+% \documentclass[UTF8,AutoFakeBold]{ctexbook}
+% % 特有命令
 % \newcommand{\konghang}{\bigskip}
 % \newcommand{\bsuojin}{\noindent}
 % \newcommand{\mulu}{\tableofcontents}
 % \newcommand{\jiarumulu}{\addcontentsline}
 % \newcommand{\suoyin}{\index}
+% % 书籍的各个模块
+% \newtheorem{theorem}{定理}[section]
+% \newtheorem{definition}{定义}[section]
+% \newtheorem{lemma}{引理}[section]
+% \newtheorem{corollary}{推论}[section]
+% \newtheorem{proposition}{命题}[section]
+% \newtheorem{conjecture}{猜想}[section]
+% \newtheorem{remark}{注解}[section]
+% \newtheorem{example}{例}[section]
+% \newtheorem{problem}{问题}[section]
+% \newtheorem{assumption}{假设}[section]
+% \newtheorem{conditions}{条件}[section]
+% \newtheorem{property}{性质}[section]
+% \newtheorem{pr}{证明}[section]
+
+% % 【非ppt都需要】
+% % 设置字体大小，可以同步到正文、标题等不同情况
+% \usepackage[fontsize=14pt]{fontsize}
+% % 颜色
+% \usepackage{xcolor}
+% % 设置纸张大小和边沿
+% % marginparwidth不知道啥意思，有没有用，原来是1.75cm
+% % Replace `letterpaper' with `a4paper' for UK/EU standard size
+% \usepackage[letterpaper,top=1.5cm,bottom=1.5cm,left=1cm,right=1cm,marginparwidth=0cm]{geometry}
+% % 超链接
+% \usepackage[colorlinks=true, allcolors=blue]{hyperref}
+% % 基本设置
+% \biaoti{数学分析学习指南}
+% \zuozhe{胡御仙}
+% \danwei{FENLI OZ}
+% \riqi{\jintian}
+
+% % 【ppt】
+% \documentclass[UTF8,AutoFakeBold]{ctexbeamer}
+% % 布局主体
+% \usetheme{Madrid}
+% % 颜色主题
+% \usecolortheme{spruce}
+% % 基本函数
+% \newenvironment{ppt}{\begin{document}}{\end{document}}
+% \newcommand{\biaoti}{\title}
+% \newcommand{\zuozhe}{\author}
+% \newcommand{\danwei}{\institute}
+% \newcommand{\riqi}{\date}
+% \newcommand{\jintian}{\today}
+% \newenvironment{ye}{\begin{frame}}{\end{frame}}
+% \newcommand{\biaotiye}{\titlepage}
+% \newcommand{\yebiaoti}{\frametitle}
+% % 基本设置
+% \biaoti{数学分析学习指南}
+% \zuozhe{胡御仙}
+% \danwei{FENLI OZ}
+% \riqi{\jintian}
+
+
+% % 【召唤仙女】！！！！
+% \usepackage{fenla}
+% % 『零曲线输入数学公式』的github项目 
+% % 为确保仙女处于最高优先级，必须最后召唤（否则函数重命名覆盖顺序可能冲突，已发现超链接冲突）
+
+
+
+

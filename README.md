@@ -8,8 +8,8 @@
 
 
 - fenla编码示例：
-- 存在：\cunzai；α：\alf或\alp（兼容数学或非数学环境）；≠：\bd；→：\yjt或\qy（趋于）；
-- 盒子：\hezi；花体A：\Ah（A花；兼容数学或非数学环境）；红色字体：\hs；
+- 存在：\cunzai；α：\alf或\alp（非数学环境为\alf\*或\alp*）；≠：\bd；→：\yjt或\qy（趋于）；
+- 盒子：\hezi；花体A：\Ah（A花；非数学环境为\Ah*）；红色字体：\hs；
 - 有序列表：\begin{yxlb}（只有begin和end不准备拼音化）。
 
 

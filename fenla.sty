@@ -5,7 +5,7 @@
 % 1. 不常用的外部设置使用全拼，而需要经常使用的数学符号等函数进行简化。比如『shuxuecuti 数学粗体』和『jf 积分号』的区别。
 % 2. 在中文数学证明中就能直接使用的英文字母，不进行改动。比如『lim』、『liminf』。 
 % 3. 6 字母法则：如果函数名的中文意义是两个字，如果它们的全拼不超过 6 个字母，那就 使用全拼；否则使用『全 + 首』模式；如果函数名的中文意义是三个字（一般超过了 6 个字母），那就使用『全 + 首 + 首』（不排除使用『全 + 全 + 首』，取决于这三个字哪两 个能够组词）。
-% 4. 极简法则：在数学中极其常见的函数和前后缀，以取首字母为主。它们的列表是：『d 等 号』、『b 否定前缀/不』、『jt 箭头』、『kh 括号』、『ds 导数』、『jf 积分』、『qh 求和』、『slh 省略号』、『gh 根号』、『ys 颜色』、『qz 取整』、『sxzy 上下左右』。（前后缀不受 6 字母法 则限制。）
+% 4. 极简法则：在数学中极其常见的函数和前后缀，以取首字母为主。它们的列表是：『d 等号』、『b 否定前缀/不』、『jt 箭头』、『kh 括号』、『ds 导数』、『jf 积分』、『qh 求和』、『slh 省略号』、『gh 根号』、『ys 颜色』（包括具体颜色的后缀『s色』）、『qz 取整』、『sxzy 上下左右』、『zd重点』、『qy趋于』、『h花体』。（前后缀不受 6 字母法则限制。）
 % 5. 特殊极简法则：『p 偏』和『pian 偏』（偏导数）都接受、『fen 分数线』、『da 大（前缀）』。
 % 6. 常用希腊字母支持拼写变体，例如『eps=epsilon』、『ksai=xi』。
 % 7. 键盘上能够打出的符号，都不重新编码；然而，玢辣函数名尽量避免切换大小写，因为 切换一次要按两次键盘。
@@ -23,8 +23,8 @@
 
 % 玢辣1.0内容
 
-% 中文支持
-\usepackage{ctex}
+% 不再需要ctex包支持中文了
+
 % 支持调用系统中已经安装的英文/中文字体，比如霞鹜文楷
 \usepackage{fontspec}
 \usepackage{xeCJK}
@@ -32,16 +32,22 @@
 \usepackage{ccfonts}
 \newcommand\ibinom[2]{\genfrac\lbrace\rbrace{0pt}{}{#1}{#2}}
 \usepackage[euler-digits]{eulervm}
-% 设置默认中英文字体
+% 设置默认中英文字体（CJK为中日韩联合字体）
 % main sans mono相当于衬线/无衬线/等宽
 % 下面的字体需要上传到overleaf上！
 % 下面的字体是中文字体，去掉CJK即为英文字体
-\setCJKmainfont{LXGWWenKaiScreenR.ttf}
-\setCJKsansfont{LXGWWenKaiScreenR.ttf}
-\setCJKmonofont{LXGWWenKaiScreenR.ttf}
-\setmainfont{LXGWWenKaiScreenR.ttf}
-\setsansfont{LXGWWenKaiScreenR.ttf}
-\setmonofont{LXGWWenKaiScreenR.ttf}
+% 后面中括号是去掉连笔/连字/ligature
+\setCJKmainfont{LXGWWenKaiScreenR.ttf}[Ligatures=TeXOff]
+\setCJKsansfont{LXGWWenKaiScreenR.ttf}[Ligatures=TeXOff]
+\setCJKmonofont{LXGWWenKaiScreenR.ttf}[Ligatures=TeXOff]
+\setmainfont{LXGWWenKaiScreenR.ttf}[Ligatures=TeXOff]
+\setsansfont{LXGWWenKaiScreenR.ttf}[Ligatures=TeXOff]
+\setmonofont{LXGWWenKaiScreenR.ttf}[Ligatures=TeXOff]
+% 设置楷体
+\newCJKfontfamily{\kt}{simkai.ttf}
+\newCJKfontfamily{\kaiti}{simkai.ttf}
+\newCJKfontfamily{\xwwk}{LXGWWenKaiScreenR.ttf}
+\newCJKfontfamily{\mrzt}{LXGWWenKaiScreenR.ttf}
 
 
 
@@ -49,6 +55,10 @@
 \usepackage{amsmath,amsthm,amssymb,amsfonts}
 \usepackage{bm,graphicx}
 \usepackage{pgfplots}
+% 支持加星函数/免美元打字
+\usepackage{suffix}
+% 支持表格
+\usepackage{booktabs,array,multirow,makecell}
 
 % 插入代码
 \usepackage{listings}
@@ -56,23 +66,17 @@
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 % 各个语言的代码的通用设置，下面的属性和各个语言内部的设置差不多
+% 代码模块的特殊重命名方式，正常方式不能用
+\lstnewenvironment{daima}[1][firstnumber=\themain,name=main]{
 \lstset{
-    basicstyle          =   \sffamily,          % 基本代码风格
-    keywordstyle        =   \bfseries,          % 关键字风格
-    commentstyle        =   \rmfamily\itshape,  % 注释的风格，斜体
-    stringstyle         =   \ttfamily,  % 字符串风格
     flexiblecolumns,                % 别问为什么，加上这个
     numbers             =   left,   % 行号的位置在左边
     showspaces          =   false,  % 是否显示空格，显示了有点乱，所以不显示了
-    numberstyle         =   \zihao{5}\ttfamily,    % 行号的样式，小五号，tt等宽字体
     showstringspaces    =   false,
     captionpos          =   t,      % 这段代码的名字所呈现的位置，t指的是top上面
     frame               =   lrtb,   % 显示边框，四个字母代表四个方向
     tabsize=3,
-}
-% 各个语言分开设置
-\lstdefinestyle{moren}{
-    language        =   Python, % 语言选Python
+    language        =   r,
     basicstyle      =   \small\ttfamily,
     numberstyle     =   \small\ttfamily\color{red},
     keywordstyle    =   \color{blue},
@@ -82,7 +86,7 @@
     breaklines      =   true,   % 自动换行，建议不要写太长的行
     columns         =   flexible,  % 如果不加这一句，字间距就不固定，很丑，必须加
     basewidth       =   0.5em,
-}
+}}{}
 
 % 修正不能段首空格的bug
 \usepackage{indentfirst}
@@ -92,9 +96,11 @@
 \usepackage{float}
 
 % 下面是FENLA的魔改环节
+% 这个item的翻译想了半天，感觉条tiao比项xiang/点dian更符合直觉
+\def\tiao{\item}
+\def\t{\item}
 % 空格
 \newcommand{\kg}{\ }
-% FENLA一期
 % 上下标。部分无法在overleaf中使用，后文已处理
 \newcommand{\huati}{\mathcal}
 \newcommand{\sansheng}{\check}
@@ -105,167 +111,267 @@
 \newcommand{\dabiy}{\widetilde}
 
 % 正文插入数学环境的希腊字
-\newcommand{\alp}{\mbox{$\alpha$}}
-\newcommand{\bet}{\mbox{$\beta$}}
-\newcommand{\gama}{\mbox{$\gamma$}}
-\newcommand{\gam}{\mbox{$\gamma$}}
-\newcommand{\del}{\mbox{$\delta$}}
-\newcommand{\eps}{\mbox{$\varepsilon$}}
-\newcommand{\zet}{\mbox{$\zeta$}}
-\newcommand{\ita}{\mbox{$\eta$}}
-% 本来应该指派the但the是保留字
-\newcommand{\thi}{\mbox{$\theta$}}
-\newcommand{\iot}{\mbox{$\iota$}}
-\newcommand{\kapa}{\mbox{$\kappa$}}
-\newcommand{\kap}{\mbox{$\kappa$}}
-\newcommand{\lam}{\mbox{$\lambda$}}
-\newcommand{\lamda}{\mbox{$\lambda$}}
-\newcommand{\miu}{\mbox{$\mu$}}
-\newcommand{\niu}{\mbox{$\nu$}}
-\newcommand{\ksi}{\mbox{$\xi$}}
-\newcommand{\ksa}{\mbox{$\xi$}}
-\newcommand{\ksai}{\mbox{$\xi$}}
-\newcommand{\pai}{\mbox{$\pi$}}
-\newcommand{\rou}{\mbox{$\rho$}}
-\newcommand{\sig}{\mbox{$\sigma$}}
-\newcommand{\tao}{\mbox{$\tau$}}
-\newcommand{\ups}{\mbox{$\upsilon$}}
-\newcommand{\fai}{\mbox{$\phi$}}
-\newcommand{\vphi}{\mbox{$\varphi$}}
-\newcommand{\vfai}{\mbox{$\varphi$}}
-\newcommand{\kai}{\mbox{$\chi$}}
-\newcommand{\psai}{\mbox{$\psi$}}
-\newcommand{\psa}{\mbox{$\psi$}}
-\newcommand{\ome}{\mbox{$\omega$}}
+% 必须先定义原始函数再定义星号函数，否则会覆盖导致无效
+\def\alp{\alpha}
+\def\alf{\alpha}
+\def\alfa{\alpha}
+\def\bet{\beta}
+\def\gama{\gamma}
+\def\gam{\gamma}
+\newcommand{\del}{\delta}
+\def\eps{\varepsilon}
+\def\zet{\zeta}
+\def\ita{\eta}
 
-% 以下希腊字母覆盖原名称定义会引起bug（超出内存容量，semantic nest size=500，本地端也许可以强制扩大解决，但因为后续还能插入很多hezi函数，所以我怀疑这个报错不是真正的原因！）
-% 然而，正文内插希腊字母目前仍『几乎』支持全部3字简写（fai比phi优先；psi和fai太像所以数学里不用，其它都不是3字简写）
-% \renewcommand{\alpha}{\mbox{$\alpha$}}
-% \renewcommand{\beta}{\mbox{$\beta$}}
-% \renewcommand{\delta}{\mbox{$\delta$}}
-% \renewcommand{\epsilon}{\mbox{$\epsilon$}}
-% \renewcommand{\zeta}{\mbox{$\zeta$}}
-% \renewcommand{\theta}{\mbox{$\theta$}}
-% \renewcommand{\iota}{\mbox{$\iota$}}
-% \renewcommand{\sigma}{\mbox{$\sigma$}}
-% \renewcommand{\phi}{\mbox{$\phi$}}
-% \renewcommand{\psi}{\mbox{$\psi$}}
-% \renewcommand{\omega}{\mbox{$\omega$}}
+\WithSuffix\newcommand\alp*{\mbox{$\alpha$}}
+\WithSuffix\newcommand\alf*{\alpha}
+\WithSuffix\newcommand\bet*{\mbox{$\beta$}}
+\WithSuffix\newcommand\gama*{\mbox{$\gamma$}}
+\WithSuffix\newcommand\gam*{\mbox{$\gamma$}}
+\WithSuffix\newcommand\del*{\mbox{$\delta$}}
+\WithSuffix\newcommand\eps*{\mbox{$\varepsilon$}}
+\WithSuffix\newcommand\zet*{\mbox{$\zeta$}}
+\WithSuffix\newcommand\ita*{\mbox{$\eta$}}
+% 指派the也可以（thi也符合拼音规则）但是和内置保留字重合
+\newcommand{\thi}{\theta}
+\newcommand{\thita}{\theta}
+\newcommand{\iot}{\iota}
+\newcommand{\kapa}{\kappa}
+\newcommand{\kap}{\kappa}
+\newcommand{\lam}{\lambda}
+\newcommand{\lamda}{\lambda}
+\newcommand{\miu}{\mu}
+\newcommand{\niu}{\nu}
+\newcommand{\ksi}{\xi}
+\newcommand{\ksa}{\xi}
+\newcommand{\ksai}{\xi}
+\newcommand{\pai}{\pi}
+\newcommand{\rou}{\rho}
+\newcommand{\sig}{\sigma}
+\newcommand{\tao}{\tau}
+\newcommand{\ups}{\upsilon}
+\newcommand{\fai}{\phi}
+\newcommand{\vphi}{\varphi}
+\newcommand{\vfai}{\varphi}
+\newcommand{\kai}{\chi}
+\newcommand{\psai}{\psi}
+\newcommand{\psa}{\psi}
+\newcommand{\ome}{\omega}
+
+\WithSuffix\newcommand\thi*{\mbox{$\theta$}}
+\WithSuffix\newcommand\iot*{\mbox{$\iota$}}
+\WithSuffix\newcommand\kapa*{\mbox{$\kappa$}}
+\WithSuffix\newcommand\kap*{\mbox{$\kappa$}}
+\WithSuffix\newcommand\lam*{\mbox{$\lambda$}}
+\WithSuffix\newcommand\lamda*{\mbox{$\lambda$}}
+\WithSuffix\newcommand\miu*{\mbox{$\mu$}}
+\WithSuffix\newcommand\niu*{\mbox{$\nu$}}
+\WithSuffix\newcommand\ksi*{\mbox{$\xi$}}
+\WithSuffix\newcommand\ksa*{\mbox{$\xi$}}
+\WithSuffix\newcommand\ksai*{\mbox{$\xi$}}
+\WithSuffix\newcommand\pai*{\mbox{$\pi$}}
+\WithSuffix\newcommand\rou*{\mbox{$\rho$}}
+\WithSuffix\newcommand\sig*{\mbox{$\sigma$}}
+\WithSuffix\newcommand\tao*{\mbox{$\tau$}}
+\WithSuffix\newcommand\ups*{\mbox{$\upsilon$}}
+\WithSuffix\newcommand\fai*{\mbox{$\phi$}}
+\WithSuffix\newcommand\vphi*{\mbox{$\varphi$}}
+\WithSuffix\newcommand\vfai*{\mbox{$\varphi$}}
+\WithSuffix\newcommand\kai*{\mbox{$\chi$}}
+\WithSuffix\newcommand\psai*{\mbox{$\psi$}}
+\WithSuffix\newcommand\psa*{\mbox{$\psi$}}
+\WithSuffix\newcommand\ome*{\mbox{$\omega$}}
+% 这是系统已有原定义的希腊字母
+\WithSuffix\newcommand\alpha*{\mbox{$\alpha$}}
+\WithSuffix\newcommand\beta*{\mbox{$\beta$}}
+\WithSuffix\newcommand\delta*{\mbox{$\delta$}}
+\WithSuffix\newcommand\epsilon*{\mbox{$\epsilon$}}
+\WithSuffix\newcommand\zeta*{\mbox{$\zeta$}}
+\WithSuffix\newcommand\theta*{\mbox{$\theta$}}
+\WithSuffix\newcommand\iota*{\mbox{$\iota$}}
+\WithSuffix\newcommand\sigma*{\mbox{$\sigma$}}
+\WithSuffix\newcommand\phi*{\mbox{$\phi$}}
+\WithSuffix\newcommand\psi*{\mbox{$\psi$}}
+\WithSuffix\newcommand\omega*{\mbox{$\omega$}}
 
 % 正文插入数学环境的大写希腊
-\def\dagama{\mbox{$\Gamma$}}
-\def\dagam{\mbox{$\Gamma$}}
-\def\dagamma{\mbox{$\Gamma$}}
-\def\dalam{\mbox{$\Lambda$}}
-\def\dalamda{\mbox{$\Lambda$}}
-\def\dalambda{\mbox{$\Lambda$}}
-\def\dapsai{\mbox{$\Psi$}}
-\def\dapsa{\mbox{$\Psi$}}
-\def\dapsi{\mbox{$\Psi$}}
-\def\daksi{\mbox{$\Xi$}}
-\def\daksa{\mbox{$\Xi$}}
-\def\daksai{\mbox{$\Xi$}}
-\def\daxi{\mbox{$\Xi$}}
-\def\daphi{\mbox{$\Phi$}}
-\def\dafai{\mbox{$\Phi$}}
-\def\daome{\mbox{$\Omega$}}
-\def\daomega{\mbox{$\Omega$}}
-\def\dasig{\mbox{$\Sigma$}}
-\def\dasigma{\mbox{$\Sigma$}}
+\def\dagama{\Gamma}
+\def\dagam{\Gamma}
+\def\dagamma{\Gamma}
+\def\dalam{\Lambda}
+\def\dalamda{\Lambda}
+\def\dalambda{\Lambda}
+\def\dapsai{\Psi}
+\def\dapsa{\Psi}
+\def\dapsi{\Psi}
+\def\daksi{\Xi}
+\def\daksa{\Xi}
+\def\daksai{\Xi}
+\def\daxi{\Xi}
+\def\daphi{\Phi}
+\def\dafai{\Phi}
+\def\daome{\Omega}
+\def\daomega{\Omega}
+\def\dasig{\Sigma}
+\def\dasigma{\Sigma}
+
+\WithSuffix\newcommand\dagama*{\mbox{$\Gamma$}}
+\WithSuffix\newcommand\dagam*{\mbox{$\Gamma$}}
+\WithSuffix\newcommand\dagamma*{\mbox{$\Gamma$}}
+\WithSuffix\newcommand\dalam*{\mbox{$\Lambda$}}
+\WithSuffix\newcommand\dalamda*{\mbox{$\Lambda$}}
+\WithSuffix\newcommand\dalambda*{\mbox{$\Lambda$}}
+\WithSuffix\newcommand\dapsai*{\mbox{$\Psi$}}
+\WithSuffix\newcommand\dapsa*{\mbox{$\Psi$}}
+\WithSuffix\newcommand\dapsi*{\mbox{$\Psi$}}
+\WithSuffix\newcommand\daksi*{\mbox{$\Xi$}}
+\WithSuffix\newcommand\daksa*{\mbox{$\Xi$}}
+\WithSuffix\newcommand\daksai*{\mbox{$\Xi$}}
+\WithSuffix\newcommand\daxi*{\mbox{$\Xi$}}
+\WithSuffix\newcommand\daphi*{\mbox{$\Phi$}}
+\WithSuffix\newcommand\dafai*{\mbox{$\Phi$}}
+\WithSuffix\newcommand\daome*{\mbox{$\Omega$}}
+\WithSuffix\newcommand\daomega*{\mbox{$\Omega$}}
+\WithSuffix\newcommand\dasig*{\mbox{$\Sigma$}}
+\WithSuffix\newcommand\dasigma*{\mbox{$\Sigma$}}
 % 正文插入数学环境的拉丁字母，如果有未知bug注意renew的地方
-\newcommand{\A}{\mbox{$A$}}
-\newcommand{\B}{\mbox{$B$}}
-\newcommand{\C}{\mbox{$C$}}
-\newcommand{\D}{\mbox{$D$}}
-\newcommand{\E}{\mbox{$E$}}
-\newcommand{\F}{\mbox{$F$}}
-\newcommand{\G}{\mbox{$G$}}
-\renewcommand{\H}{\mbox{$H$}}
-\newcommand{\I}{\mbox{$I$}}
-\newcommand{\J}{\mbox{$J$}}
-\newcommand{\K}{\mbox{$K$}}
-\renewcommand{\L}{\mbox{$L$}}
-\newcommand{\M}{\mbox{$M$}}
-\newcommand{\N}{\mbox{$N$}}
-\renewcommand{\O}{\mbox{$O$}}
-\renewcommand{\P}{\mbox{$P$}}
-\newcommand{\Q}{\mbox{$Q$}}
-\newcommand{\R}{\mbox{$R$}}
-\renewcommand{\S}{\mbox{$S$}}
-\newcommand{\T}{\mbox{$T$}}
-\newcommand{\U}{\mbox{$U$}}
-\newcommand{\V}{\mbox{$V$}}
-\newcommand{\W}{\mbox{$W$}}
-\newcommand{\X}{\mbox{$X$}}
-\newcommand{\Y}{\mbox{$Y$}}
-\newcommand{\Z}{\mbox{$Z$}}
-\renewcommand{\a}{\mbox{$a$}}
-\renewcommand{\b}{\mbox{$b$}}
-\renewcommand{\c}{\mbox{$c$}}
-\renewcommand{\d}{\mbox{$d$}}
-\newcommand{\e}{\mbox{$e$}}
-\newcommand{\f}{\mbox{$f$}}
-\newcommand{\g}{\mbox{$g$}}
-\newcommand{\h}{\mbox{$h$}}
-\renewcommand{\i}{\mbox{$i$}}
-\renewcommand{\j}{\mbox{$j$}}
-\renewcommand{\k}{\mbox{$k$}}
-\renewcommand{\l}{\mbox{$l$}}
-\newcommand{\m}{\mbox{$m$}}
-\newcommand{\n}{\mbox{$n$}}
-\renewcommand{\o}{\mbox{$o$}}
-\newcommand{\p}{\mbox{$p$}}
-\newcommand{\q}{\mbox{$q$}}
-\renewcommand{\r}{\mbox{$r$}}
-\newcommand{\s}{\mbox{$s$}}
-\renewcommand{\t}{\mbox{$t$}}
-\renewcommand{\u}{\mbox{$u$}}
-\renewcommand{\v}{\mbox{$v$}}
-\newcommand{\w}{\mbox{$w$}}
-\newcommand{\x}{\mbox{$x$}}
-\newcommand{\y}{\mbox{$y$}}
-\newcommand{\z}{\mbox{$z$}}
+\def\l{\ell}
+\WithSuffix\newcommand\A*{\mbox{$A$}}
+\WithSuffix\newcommand\B*{\mbox{$B$}}
+\WithSuffix\newcommand\C*{\mbox{$C$}}
+\WithSuffix\newcommand\D*{\mbox{$D$}}
+\WithSuffix\newcommand\E*{\mbox{$E$}}
+\WithSuffix\newcommand\F*{\mbox{$F$}}
+\WithSuffix\newcommand\G*{\mbox{$G$}}
+\WithSuffix\newcommand\H*{\mbox{$H$}}
+\WithSuffix\newcommand\I*{\mbox{$I$}}
+\WithSuffix\newcommand\J*{\mbox{$J$}}
+\WithSuffix\newcommand\K*{\mbox{$K$}}
+\WithSuffix\newcommand\L*{\mbox{$L$}}
+\WithSuffix\newcommand\M*{\mbox{$M$}}
+\WithSuffix\newcommand\N*{\mbox{$N$}}
+\WithSuffix\newcommand\O*{\mbox{$O$}}
+\WithSuffix\newcommand\P*{\mbox{$P$}}
+\WithSuffix\newcommand\Q*{\mbox{$Q$}}
+\WithSuffix\newcommand\R*{\mbox{$R$}}
+\WithSuffix\newcommand\S*{\mbox{$S$}}
+\WithSuffix\newcommand\T*{\mbox{$T$}}
+\WithSuffix\newcommand\U*{\mbox{$U$}}
+\WithSuffix\newcommand\V*{\mbox{$V$}}
+\WithSuffix\newcommand\W*{\mbox{$W$}}
+\WithSuffix\newcommand\X*{\mbox{$X$}}
+\WithSuffix\newcommand\Y*{\mbox{$Y$}}
+\WithSuffix\newcommand\Z*{\mbox{$Z$}}
+\WithSuffix\newcommand\a*{\mbox{$a$}}
+\WithSuffix\newcommand\b*{\mbox{$b$}}
+\WithSuffix\newcommand\c*{\mbox{$c$}}
+\WithSuffix\newcommand\d*{\mbox{$d$}}
+\WithSuffix\newcommand\e*{\mbox{$e$}}
+\WithSuffix\newcommand\f*{\mbox{$f$}}
+\WithSuffix\newcommand\g*{\mbox{$g$}}
+\WithSuffix\newcommand\h*{\mbox{$h$}}
+\WithSuffix\newcommand\i*{\mbox{$i$}}
+\WithSuffix\newcommand\j*{\mbox{$j$}}
+\WithSuffix\newcommand\k*{\mbox{$k$}}
+\WithSuffix\newcommand\l*{\mbox{$\ell$}}
+\WithSuffix\newcommand\m*{\mbox{$m$}}
+\WithSuffix\newcommand\n*{\mbox{$n$}}
+\WithSuffix\newcommand\o*{\mbox{$o$}}
+\WithSuffix\newcommand\p*{\mbox{$p$}}
+\WithSuffix\newcommand\q*{\mbox{$q$}}
+\WithSuffix\newcommand\r*{\mbox{$r$}}
+\WithSuffix\newcommand\s*{\mbox{$s$}}
+\WithSuffix\newcommand\t*{\mbox{$t$}}
+\WithSuffix\newcommand\u*{\mbox{$u$}}
+\WithSuffix\newcommand\v*{\mbox{$v$}}
+\WithSuffix\newcommand\w*{\mbox{$w$}}
+\WithSuffix\newcommand\x*{\mbox{$x$}}
+\WithSuffix\newcommand\y*{\mbox{$y$}}
+\WithSuffix\newcommand\z*{\mbox{$z$}}
 % 正文插入数学环境的花体
-\newcommand{\Ah}{\mbox{$\mathcal{A}$}}
-\newcommand{\Bh}{\mbox{$\mathcal{B}$}}
-\newcommand{\Ch}{\mbox{$\mathcal{C}$}}
-\newcommand{\Dh}{\mbox{$\mathcal{D}$}}
-\newcommand{\Eh}{\mbox{$\mathcal{E}$}}
-\newcommand{\Fh}{\mbox{$\mathcal{F}$}}
-\newcommand{\Gh}{\mbox{$\mathcal{G}$}}
-\newcommand{\Hh}{\mbox{$\mathcal{H}$}}
-\newcommand{\Ih}{\mbox{$\mathcal{I}$}}
-\newcommand{\Jh}{\mbox{$\mathcal{J}$}}
-\newcommand{\Kh}{\mbox{$\mathcal{K}$}}
-\newcommand{\Lh}{\mbox{$\mathcal{L}$}}
-\newcommand{\Mh}{\mbox{$\mathcal{M}$}}
-\newcommand{\Nh}{\mbox{$\mathcal{N}$}}
-\newcommand{\Oh}{\mbox{$\mathcal{O}$}}
-\newcommand{\Ph}{\mbox{$\mathcal{P}$}}
-\newcommand{\Qh}{\mbox{$\mathcal{Q}$}}
-\newcommand{\Rh}{\mbox{$\mathcal{R}$}}
-\newcommand{\Sh}{\mbox{$\mathcal{S}$}}
-\newcommand{\Th}{\mbox{$\mathcal{T}$}}
-\newcommand{\Uh}{\mbox{$\mathcal{U}$}}
-\newcommand{\Vh}{\mbox{$\mathcal{V}$}}
-\newcommand{\Wh}{\mbox{$\mathcal{W}$}}
-\newcommand{\Xh}{\mbox{$\mathcal{X}$}}
-\newcommand{\Yh}{\mbox{$\mathcal{Y}$}}
-\newcommand{\Zh}{\mbox{$\mathcal{Z}$}}
+
+\def\Ah{\mathcal{A}}
+\def\Bh{\mathcal{B}}
+\def\Ch{\mathcal{C}}
+\def\Dh{\mathcal{D}}
+\def\Eh{\mathcal{E}}
+\def\Fh{\mathcal{F}}
+\def\Gh{\mathcal{G}}
+\def\Hh{\mathcal{H}}
+\def\Ih{\mathcal{I}}
+\def\Jh{\mathcal{J}}
+\def\Kh{\mathcal{K}}
+\def\Lh{\mathcal{L}}
+\def\Mh{\mathcal{M}}
+\def\Nh{\mathcal{N}}
+\def\Oh{\mathcal{O}}
+\def\Ph{\mathcal{P}}
+\def\Qh{\mathcal{Q}}
+\def\Rh{\mathcal{R}}
+\def\Sh{\mathcal{S}}
+\def\Th{\mathcal{T}}
+\def\Uh{\mathcal{U}}
+\def\Vh{\mathcal{V}}
+\def\Wh{\mathcal{W}}
+\def\Xh{\mathcal{X}}
+\def\Yh{\mathcal{Y}}
+\def\Zh{\mathcal{Z}}
+
+\WithSuffix\newcommand\Ah*{\mbox{$\mathcal{A}$}}
+\WithSuffix\newcommand\Bh*{\mbox{$\mathcal{B}$}}
+\WithSuffix\newcommand\Ch*{\mbox{$\mathcal{C}$}}
+\WithSuffix\newcommand\Dh*{\mbox{$\mathcal{D}$}}
+\WithSuffix\newcommand\Eh*{\mbox{$\mathcal{E}$}}
+\WithSuffix\newcommand\Fh*{\mbox{$\mathcal{F}$}}
+\WithSuffix\newcommand\Gh*{\mbox{$\mathcal{G}$}}
+\WithSuffix\newcommand\Hh*{\mbox{$\mathcal{H}$}}
+\WithSuffix\newcommand\Ih*{\mbox{$\mathcal{I}$}}
+\WithSuffix\newcommand\Jh*{\mbox{$\mathcal{J}$}}
+\WithSuffix\newcommand\Kh*{\mbox{$\mathcal{K}$}}
+\WithSuffix\newcommand\Lh*{\mbox{$\mathcal{L}$}}
+\WithSuffix\newcommand\Mh*{\mbox{$\mathcal{M}$}}
+\WithSuffix\newcommand\Nh*{\mbox{$\mathcal{N}$}}
+\WithSuffix\newcommand\Oh*{\mbox{$\mathcal{O}$}}
+\WithSuffix\newcommand\Ph*{\mbox{$\mathcal{P}$}}
+\WithSuffix\newcommand\Qh*{\mbox{$\mathcal{Q}$}}
+\WithSuffix\newcommand\Rh*{\mbox{$\mathcal{R}$}}
+\WithSuffix\newcommand\Sh*{\mbox{$\mathcal{S}$}}
+\WithSuffix\newcommand\Th*{\mbox{$\mathcal{T}$}}
+\WithSuffix\newcommand\Uh*{\mbox{$\mathcal{U}$}}
+\WithSuffix\newcommand\Vh*{\mbox{$\mathcal{V}$}}
+\WithSuffix\newcommand\Wh*{\mbox{$\mathcal{W}$}}
+\WithSuffix\newcommand\Xh*{\mbox{$\mathcal{X}$}}
+\WithSuffix\newcommand\Yh*{\mbox{$\mathcal{Y}$}}
+\WithSuffix\newcommand\Zh*{\mbox{$\mathcal{Z}$}}
+
 % 正文插入数学环境的空心体，重定义了\skew
-\newcommand{\CC}{\mbox{$\mathbb C$}}
-\newcommand{\RR}{\mbox{$\mathbb R$}}
-\newcommand{\QQ}{\mbox{$\mathbb Q$}}
-\newcommand{\II}{\mbox{$\mathbb I$}}
-\newcommand{\ZZ}{\mbox{$\mathbb Z$}}
-\newcommand{\NN}{\mbox{$\mathbb N$}}
-\newcommand{\PP}{\mbox{$\mathbb P$}}
-\newcommand{\EE}{\mbox{$\mathbb E$}}
-\newcommand{\VV}{\mbox{$\mathbb V$}}
-\newcommand{\BB}{\mbox{$\mathbb B$}}
+\def\CC{\mathbb C}
+\newcommand{\RR}{{\mathbb{R}}}
+\def\QQ{\mathbb Q}
+\def\II{\mathbb I}
+\def\ZZ{\mathbb Z}
+\def\NN{\mathbb N}
+\def\PP{\mathbb P}
+\def\EE{\mathbb E}
+\def\VV{\mathbb V}
+\def\BB{\mathbb B}
+
+\WithSuffix\newcommand\CC*{\mbox{$\mathbb C$}}
+\WithSuffix\newcommand\RR*{\mbox{$\mathbb R$}}
+\WithSuffix\newcommand\QQ*{\mbox{$\mathbb Q$}}
+\WithSuffix\newcommand\II*{\mbox{$\mathbb I$}}
+\WithSuffix\newcommand\ZZ*{\mbox{$\mathbb Z$}}
+\WithSuffix\newcommand\NN*{\mbox{$\mathbb N$}}
+\WithSuffix\newcommand\PP*{\mbox{$\mathbb P$}}
+\WithSuffix\newcommand\EE*{\mbox{$\mathbb E$}}
+\WithSuffix\newcommand\VV*{\mbox{$\mathbb V$}}
+\WithSuffix\newcommand\BB*{\mbox{$\mathbb B$}}
+
 % 下面为空心体衍生的统计学符号。除MSE以外，因正文中的用处较少，不再使用盒子。
-\newcommand{\MSE}{\mbox{$\mathbb{MSE}$}}
-\newcommand{\mse}{\mbox{$\mathbb{MSE}$}}
+\def\MSE{\mathbb{MSE}}
+\def\mse{\mathbb{MSE}}
+\WithSuffix\newcommand\MSE*{\mbox{$\mathbb{MSE}$}}
+\WithSuffix\newcommand\mse*{\mbox{$\mathbb{MSE}$}}
 \newcommand{\SE}{\mathbb{SE}}
 \newcommand{\se}{\mathbb{SE}}
 \newcommand{\Var}{\mathbb{V}\mathrm{ar}}
@@ -277,19 +383,20 @@
 \newcommand{\Kurt}{\mathbb{K}\mathrm{urt}}
 \newcommand{\kurt}{\mathbb{K}\mathrm{urt}}
 
-% 正文插入数学环境的数字
-\newcommand{\ling}{\mbox{$0$}}
-\newcommand{\yi}{\mbox{$1$}}
-\newcommand{\er}{\mbox{$2$}}
-\newcommand{\san}{\mbox{$3$}}
-\newcommand{\si}{\mbox{$4$}}
-\newcommand{\wu}{\mbox{$5$}}
-\newcommand{\liu}{\mbox{$6$}}
-\newcommand{\qi}{\mbox{$7$}}
-\newcommand{\ba}{\mbox{$8$}}
-\newcommand{\jiu}{\mbox{$9$}}
+% 正文插入数学环境的数字；不需要事先定义原函数
+\WithSuffix\newcommand\ling*{\mbox{$0$}}
+\WithSuffix\newcommand\yi*{\mbox{$1$}}
+\WithSuffix\newcommand\er*{\mbox{$2$}}
+\WithSuffix\newcommand\san*{\mbox{$3$}}
+\WithSuffix\newcommand\si*{\mbox{$4$}}
+\WithSuffix\newcommand\wu*{\mbox{$5$}}
+\WithSuffix\newcommand\liu*{\mbox{$6$}}
+\WithSuffix\newcommand\qi*{\mbox{$7$}}
+\WithSuffix\newcommand\ba*{\mbox{$8$}}
+\WithSuffix\newcommand\jiu*{\mbox{$9$}}
 
 % 数学符号
+\newcommand{\dingyid}{\triangleq}
 \newcommand{\xd}{\le}
 \newcommand{\dd}{\ge}
 \newcommand{\hd}{\equiv}
@@ -352,6 +459,7 @@
 \newcommand{\dianc}{\cdot}
 \newcommand{\chu}{\div}
 \newcommand{\cha}{\times}
+\newcommand{\chac}{\times}
 \newcommand{\jihejian}{\setminus}
 \newcommand{\xing}{\star}
 \newcommand{\bing}{\cup}
@@ -362,6 +470,8 @@
 \newcommand{\quxiao}{\wedge}
 \newcommand{\yuan}{\bullet}
 \newcommand{\qh}{\sum}
+\newcommand{\qj}{\prod}
+\newcommand{\lianj}{\sum}
 \newcommand{\dabing}{\bigcup}
 \newcommand{\daquda}{\bigvee}
 \newcommand{\lianc}{\prod}
@@ -479,7 +589,16 @@
 \newcommand{\zjiankh}{\langle}
 \newcommand{\yjiankh}{\rangle}
 \newcommand{\shuxuecuti}{\mathbb}
-\newcommand{\gh}{\sqrt}
+% 下面是一个内核定义函数的实例，目的是让根号如同分数那样
+\makeatletter%开始启用@模式
+\newcommand{\gh@helper@i}[1]{\sqrt{#1}}%先定义一个单参
+\newcommand{\gh@helper@ii}[2]{\sqrt[#1]{#2}}%再定义一个双参函数
+\newcommand{\gh}[1]{%定义我们想要的函数
+\@ifnextchar\bgroup%内置判断如果下一个字符是大括号
+  {\gh@helper@ii{#1}}%
+  {\gh@helper@i{#1}}%
+}
+\makeatother%结束@模式
 \newcommand{\fen}{\frac}
 \newcommand{\ys}{\color}
 \newcommand{\ct}{\textbf}
@@ -515,7 +634,19 @@
 \def\zhujie#1{\begin{remark}~\\{\text { ~\ ~\ ~\ }}#1\end{remark}}
 \def\zhengm#1{\begin{pr}~\\{\text { ~\ ~\ ~\ }}#1\end{pr}}
 % 代数
-\def\jz#1{\begin{bmatrix}#1\end{bmatrix}}
+% 矩阵包括了方括号，不需要输入列数。数表不包括且需要。除此之外数表功能更大。它们都需要数学环境。
+
+% 使矩阵增加一个可选参数，即行距，防止显示bug
+\makeatletter
+\renewcommand*\env@matrix[1][\arraystretch]{%
+  \edef\arraystretch{#1}%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{*\c@MaxMatrixCols c}}
+\makeatother
+
+\newenvironment{jz}{\begin{bmatrix}}{\end{bmatrix}}
+\newenvironment{shub}{\begin{array}}{\end{array}}
 % 行列式。虽然模式写的是cccc但m行n列均可
 \def\hls#1{\left |\begin{array}{cccc}#1\end{array}\right|}
 \newcommand{\fanxx}{\backslash}
@@ -533,18 +664,19 @@
 \def\xiangl{\overrightarrow}
 \def\xl{\overrightarrow}
 % 小节功能。
-\def\xiaoj#1{\konghang\busuojin\ct{\da{#1}}}
+\newcommand{\konghang}{\bigskip}
+\newcommand{\bsuojin}{\noindent}
+\def\xiaoj#1{\konghang\bsuojin\ct{\da{#1}}}
 \newcommand{\fucong}{\sim}
 % 列表
 \newenvironment{wxlb}{\begin{itemize}}{\end{itemize}}
 \newenvironment{yxlb}{\begin{enumerate}}{\end{enumerate}}
 % 文档及预配置黑色，也是设置全文颜色/定义ys函数中带有特殊名字的颜色的方法（它可以方便地设置全文颜色，不需要把文档框起来），不会覆盖之后设置的局部颜色
+% 暂时不支持wendang功能，即document的重命名
 \definecolor{tebieheise}{RGB}{55,55,55}
-\newenvironment{wendang}{\begin{document}\color{tebieheise}}{\end{document}}
+% \newenvironment{wendang}{\begin{document}\color{tebieheise}}{\end{document}}
+\ys{tebieheise}
 %\renewenvironment{document}{\begin{document}\color{tebieheise}}{\end{document}}
-% 这个item的翻译想了半天，感觉条tiao比项xiang/点dian更符合直觉
-\def\tiao{\item}
-\def\t{\item}
 % 预配置颜色
 \def\zs#1{\textcolor[RGB]{186,20,79}{#1}}
 \def\hs#1{\textcolor[RGB]{241,95,95}{#1}}
@@ -562,12 +694,16 @@
 \definecolor{qs}{RGB}{49,164,164}
 % 米色
 \definecolor{mis}{RGB}{241,215,175}
+% 
+
 % 预配置带颜色格式
-% 把重点的代码移动到这里。我个人习惯称重点，也可以称强调qd，如果函数名不冲突的话。
+% 预配置的重点、第二重点、强调。其实它们三个的意思是一样的，这里只是提供三种加重点的方式。
 % 玢璃认为同一篇文档的重点颜色最好比较少，所以统一留在这里改
-\def\zd#1{\textbf{\textcolor[RGB]{186,20,79}{#1}}}
+\def\zd#1{\textbf{\textcolor[RGB]{241,95,95}{#1}}}
 % 第二重点zdzd，颜色也是使用者自定的。
-\def\zdzd#1{\textbf{\textcolor[RGB]{241,95,95}{#1}}}
+\def\zdzd#1{\textbf{\textcolor[RGB]{186,20,79}{#1}}}
+% 强调qd。注意字体和颜色一样，后面不加括号，直接对全局使用。意思是必须外加括号。这里附带了设置字号的方法。
+\def\qd#1{{\kaiti\normalsize{\textcolor[RGB]{49,164,164}{#1}}}}
 
 
 % 玢辣 版本1.2
@@ -578,31 +714,58 @@
 % 玢辣 版本1.2.1
 % 页面底色
 \pagecolor{mis}
-% 图片
+% 图片 表格
 \newenvironment{tupian}{\begin{figure}[H]}{\end{figure}}
+\newenvironment{biaoge}{\begin{table}[H]}{\end{table}}
+% \renewenvironment{table}{\begin{table}[H]}{\end{table}}
+\newenvironment{biaogeneirong}{\begin{tabular}}{\end{tabular}}
 \def\juzhong{\centering}
 \def\charutupian{\includegraphics}
 \def\tuli{\caption}
-% 对正文中需要经常单个出现（不伴随公式）的字母、部分符号进行hezi化重定义，以保证同一个函数既能在数学公式里用也能在文本里用。
+% 对正文中需要经常单个出现（不伴随公式）的字母、部分符号进行hezi化重定义，以保证同一个函数能加*后在文本里用。
 % 根据使用，追加『趋于』简码qy
 % 趋于无穷，简码：qywq，qyzwq，qyfwq
 % 趋于零，简码：qyl，qylz，qylf（lz零正，这是根据玢璃的个人习惯，读者可以修改成你习惯的，比如zl正零）
 % 为保证与正文一定的隔离性（与原始函数风格一致），使用『\;』空格
-\def\qy{\hezi{$\;\to\;$}}
-\def\quyu{\hezi{$\;\to\;$}}
-\def\bqy{\hezi{$\;\notrightarrow\;$}}
-\def\bquyu{\hezi{$\;\notrightarrow\;$}}
-\def\qywq{\hezi{$\to\wuq$}}
-\def\qyzwq{\hezi{$\;\to+\wuq\;$}}
-\def\qyfwq{\hezi{$\;\toquyu-\wuq\;$}}
-\def\qyl{\hezi{$\;\to 0\;$}}
-\def\qylz{\hezi{$\;\to 0+\;$}}
-\def\qylf{\hezi{$\;\to 0-\;$}}
+\def\qy{\to}
+\def\quyu{\to}
+\def\bqy{\notrightarrow}
+\def\bquyu{\notrightarrow}
+\def\qywq{\to\wuq}
+\def\qyzwq{\to +\wuq}
+\def\qyfwq{\to -\wuq}
+\def\qyl{\to 0}
+\def\qylz{\to 0+}
+\def\qylf{\to 0-}
+\WithSuffix\newcommand\qy*{\mbox{$\;\to\;$}}
+\WithSuffix\newcommand\quyu*{\mbox{$\;\to\;$}}
+\WithSuffix\newcommand\bqy*{\mbox{$\;\notrightarrow\;$}}
+\WithSuffix\newcommand\bquyu*{\mbox{$\;\notrightarrow\;$}}
+\WithSuffix\newcommand\qywq*{\mbox{$\to\wuq$}}
+\WithSuffix\newcommand\qyzwq*{\mbox{$\;\to+\wuq\;$}}
+\WithSuffix\newcommand\qyfwq*{\mbox{$\;\toquyu-\wuq\;$}}
+\WithSuffix\newcommand\qyl*{\mbox{$\;\to 0\;$}}
+\WithSuffix\newcommand\qylz*{\mbox{$\;\to 0+\;$}}
+\WithSuffix\newcommand\qylf*{\mbox{$\;\to 0-\;$}}
+\WithSuffix\newcommand\wuq*{\mbox{$\infty$}}
+
+% 玢辣 版本1.2.3
+% 新增*函数，正文插数学公式
+\WithSuffix\newcommand\fanxx*{\mbox{$\backslash$}}
+\WithSuffix\newcommand\fanxiex*{\mbox{$\backslash$}}
+\WithSuffix\newcommand\&*{\mbox{$\&$}}
+% 取值/长竖线
+\newcommand{\quzhi}[1]{\bigg|_{#1}}
+\newcommand{\changsx}[1]{\bigg|_{#1}}
+% 调整盒子大小、调取页宽页高
+\newcommand{\hezidaxiao}{\resizebox}
+\newcommand{\yekuan}{\pagewidth}
+\newcommand{\yegao}{\pageheight}
 
 
-% 下面是fenla的正文头文件
+% % 下面是fenla的正文头文件
 
-% 【文档类别专属调整】
+% % 【文档类别专属调整】
 
 
 % % 【论文】
@@ -617,8 +780,6 @@
 % % 【书籍】
 % \documentclass[UTF8,AutoFakeBold]{ctexbook}
 % % 特有命令
-% \newcommand{\konghang}{\bigskip}
-% \newcommand{\bsuojin}{\noindent}
 % \newcommand{\mulu}{\tableofcontents}
 % \newcommand{\jiarumulu}{\addcontentsline}
 % \newcommand{\suoyin}{\index}
@@ -649,10 +810,15 @@
 % % 超链接
 % \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 % % 基本设置
+% \newcommand{\biaoti}{\title}
+% \newcommand{\zuozhe}{\author}
+% \newcommand{\riqi}{\date}
+% \newcommand{\jintian}{\today}
 % \biaoti{数学分析学习指南}
 % \zuozhe{胡御仙}
-% \danwei{FENLI OZ}
 % \riqi{\jintian}
+% \newenvironment{biaotiye}{\begin{titlepage}}{\end{titlepage}}
+% \newcommand{\mrbiaotiye}{\maketitle}
 
 % % 【ppt】
 % \documentclass[UTF8,AutoFakeBold]{ctexbeamer}
@@ -660,17 +826,20 @@
 % \usetheme{Madrid}
 % % 颜色主题
 % \usecolortheme{spruce}
+% % 修复无法显示德式数学字体的bug
+% \usefonttheme{professionalfonts}
 % % 基本函数
-% \newenvironment{ppt}{\begin{document}}{\end{document}}
 % \newcommand{\biaoti}{\title}
 % \newcommand{\zuozhe}{\author}
-% \newcommand{\danwei}{\institute}
 % \newcommand{\riqi}{\date}
 % \newcommand{\jintian}{\today}
 % \newenvironment{ye}{\begin{frame}}{\end{frame}}
-% \newcommand{\biaotiye}{\titlepage}
+% \newenvironment{biaotiye}{\begin{titlepage}}{\end{titlepage}}
+% \newcommand{\mrbiaotiye}{\maketitle}
 % \newcommand{\yebiaoti}{\frametitle}
 % % 基本设置
+% \setlength{\parskip}{0.375\baselineskip}
+% \newcommand{\danwei}{\institute}
 % \biaoti{数学分析学习指南}
 % \zuozhe{胡御仙}
 % \danwei{FENLI OZ}
@@ -681,6 +850,12 @@
 % \usepackage{fenla}
 % % 『零曲线输入数学公式』的github项目 
 % % 为确保仙女处于最高优先级，必须最后召唤（否则函数重命名覆盖顺序可能冲突，已发现超链接冲突）
+
+% % 目前暂时不支持document环境的重命名
+% % 请在接下来的begin和end中间写文档的全部内容
+% \begin{document}
+
+% \end{document}
 
 
 
